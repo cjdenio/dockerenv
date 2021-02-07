@@ -1,0 +1,34 @@
+[
+  {
+    "name": "postgres",
+    "url": "https://hub.docker.com/_/postgres",
+    "variables": {
+      "POSTGRES_PASSWORD": {
+        "short": "Sets the password for the default user",
+        "required": true
+      },
+      "POSTGRES_USER": {
+        "short": "The username for the default user. Defaults to `postgres`",
+        "required": false
+      },
+      "POSTGRES_DB": {
+        "short": "The default database name. Defaults to the value of `POSTGRES_USER`",
+        "required": false
+      }
+    }
+  },
+  {
+    "name": "mongo",
+    "url": "https://hub.docker.com/_/mongo",
+    "variables": {
+      "MONGO_INITDB_ROOT_USERNAME": {
+        "short": "The username for the default superuser",
+        "required": true
+      },
+      "MONGO_INITDB_ROOT_PASSWORD": {
+        "short": "The password for the default superuser",
+        "required": true
+      }
+    }
+  }
+]
