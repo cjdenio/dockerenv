@@ -121,23 +121,23 @@
         "short": "Database connection string"
       },
       "SESSIONS": {
-        "required": true,
+        "required": false,
         "short": "Enable multiple database sessions"
       },
       "LOCK_SESSION": {
-        "required": true,
+        "required": false,
         "short": "lock session to a single database connection"
       },
       "AUTH_USER": {
-        "required": true,
+        "required": false,
         "short": "HTTP basic auth user"
       },
       "AUTH_PASS": {
-        "required": true,
+        "required": false,
         "short": "HTTP basic auth password"
       },
       "URL_PREFIX": {
-        "required": true,
+        "required": false,
         "short": "Add a url prefix"
       }
     }
