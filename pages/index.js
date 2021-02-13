@@ -84,7 +84,7 @@ export default function Home() {
         </Modal>
       </main>
 
-      <a href="https://github.com/cjdenio/dockerenv">
+      <a href="https://github.com/cjdenio/dockerenv" target="_blank">
         <div style={{ position: "absolute", left: 10, bottom: 10 }}>
           <GitHub size={20} />
         </div>
