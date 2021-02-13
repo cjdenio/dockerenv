@@ -1,0 +1,30 @@
+.searchPopup {
+  width: 100%;
+  max-height: 300px;
+
+  position: absolute;
+  top: calc(100% + 10px);
+
+  opacity: 1;
+  box-shadow: none;
+
+  transition-duration: 300ms;
+  transition-property: opacity, box-shadow;
+
+  overflow-y: auto;
+}
+
+.searchPopup > * {
+  text-align: left;
+}
+
+.searchPopup > :focus {
+  outline: none;
+  /* box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); */
+  border-color: #80bdff;
+  z-index: 2;
+}
+
+.searchPopup.hidden {
+  opacity: 0;
+}

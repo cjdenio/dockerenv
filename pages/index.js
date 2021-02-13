@@ -1,65 +1,94 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
+
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import { Search, GitHub } from "react-feather";
+
+import images from "../images.json";
+import { useState } from "react";
+import { InputGroup, Modal, Badge } from "react-bootstrap";
+import SearchPopup from "../components/searchPopup";
+
+import ReactMarkdown from "react-markdown";
+
+function findImages(search) {
+  if (search == "") {
+    return [];
+  }
+
+  return images.filter((i) => i.name.includes(search));
+}
 
 export default function Home() {
+  const [search, setSearch] = useState("");
+  const [modalShow, setModalShow] = useState(false);
+
+  const [image, setImage] = useState({});
+
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>dockerenv</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+        <h1 className="mb-3">dockerenv</h1>
+        <Form inline style={{ position: "relative" }}>
+          <InputGroup>
+            <InputGroup.Prepend>
+              <InputGroup.Text>
+                <Search size={16} />
+              </InputGroup.Text>
+            </InputGroup.Prepend>
+            <Form.Control
+              type="text"
+              name="q"
+              placeholder="Find an image"
+              autoFocus={true}
+              autoComplete="off"
+              onInput={(e) => setSearch(e.target.value)}
+              tabIndex={1}
+            />
+          </InputGroup>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+          <SearchPopup
+            hidden={search == ""}
+            items={findImages(search).map((i) => i.name)}
+            onSelect={(item) => {
+              setImage(images.find((i) => i.name == item));
+              setModalShow(true);
+            }}
+          />
+        </Form>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+        <Modal size="lg" show={modalShow} onHide={() => setModalShow(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>{image.name}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {image.variables &&
+              Object.entries(image.variables).map(([name, variable], index) => (
+                <div className="mb-2" key={name}>
+                  <code>{name}</code>{" "}
+                  {variable.required && (
+                    <Badge variant="danger">Required</Badge>
+                  )}
+                  <span>
+                    <ReactMarkdown>{variable.short}</ReactMarkdown>
+                  </span>
+                </div>
+              ))}
+          </Modal.Body>
+        </Modal>
       </main>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+      <a href="https://github.com/cjdenio/dockerenv">
+        <div style={{ position: "absolute", left: 10, bottom: 10 }}>
+          <GitHub size={20} />
+        </div>
+      </a>
     </div>
-  )
+  );
 }
