@@ -82,7 +82,7 @@ export default function Home() {
                 width: "100%",
                 top: "calc(100% + 10px)",
                 padding: "12px 20px",
-                color: "rgb(181, 175, 166)",
+                color: "rgb(73, 80, 87)",
                 fontSize: "16px",
               }}
             >
