@@ -1,7 +1,11 @@
 import styles from "../styles/searchPopup.module.css";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 
-export default function SearchPopup(props) {
+export default function SearchPopup(props: {
+  onSelect: (item: string) => void;
+  hidden: boolean;
+  items: string[];
+}) {
   return (
     <ListGroup
       className={`${styles.searchPopup} shadow rounded bg-body ${

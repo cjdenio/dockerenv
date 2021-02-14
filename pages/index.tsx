@@ -24,7 +24,16 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const [modalShow, setModalShow] = useState(false);
 
-  const [image, setImage] = useState({});
+  const [image, setImage] = useState<{
+    name: string;
+    url: string;
+    variables: {
+      [key: string]: {
+        short: string;
+        required: boolean;
+      };
+    };
+  } | null>(null);
 
   return (
     <div className={styles.container}>
@@ -35,7 +44,11 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className="mb-3">dockerenv</h1>
-        <Form inline style={{ position: "relative" }}>
+        <Form
+          inline
+          style={{ position: "relative" }}
+          onSubmit={(e) => e.preventDefault()}
+        >
           <InputGroup>
             <InputGroup.Prepend>
               <InputGroup.Text>
@@ -61,27 +74,54 @@ export default function Home() {
               setModalShow(true);
             }}
           />
+
+          {findImages(search).length == 0 && search != "" && (
+            <div
+              style={{
+                position: "absolute",
+                width: "100%",
+                top: "calc(100% + 10px)",
+                padding: "12px 20px",
+                color: "rgb(181, 175, 166)",
+                fontSize: "16px",
+              }}
+            >
+              No results :(
+              <br />
+              Submit an image on{" "}
+              <a
+                href="https://github.com/cjdenio/dockerenv/blob/master/images.json"
+                target="_blank"
+              >
+                GitHub
+              </a>
+              !
+            </div>
+          )}
         </Form>
 
-        <Modal size="lg" show={modalShow} onHide={() => setModalShow(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>{image.name}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {image.variables &&
-              Object.entries(image.variables).map(([name, variable], index) => (
-                <div className="mb-2" key={name}>
-                  <code>{name}</code>{" "}
-                  {variable.required && (
-                    <Badge variant="danger">Required</Badge>
-                  )}
-                  <span>
-                    <ReactMarkdown>{variable.short}</ReactMarkdown>
-                  </span>
-                </div>
-              ))}
-          </Modal.Body>
-        </Modal>
+        {image && (
+          <Modal size="lg" show={modalShow} onHide={() => setModalShow(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>{image.name}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {Object.entries(image.variables).map(
+                ([name, variable], index) => (
+                  <div className="mb-2" key={name}>
+                    <code>{name}</code>{" "}
+                    {variable.required && (
+                      <Badge variant="danger">Required</Badge>
+                    )}
+                    <span>
+                      <ReactMarkdown>{variable.short}</ReactMarkdown>
+                    </span>
+                  </div>
+                )
+              )}
+            </Modal.Body>
+          </Modal>
+        )}
       </main>
 
       <a href="https://github.com/cjdenio/dockerenv" target="_blank">
