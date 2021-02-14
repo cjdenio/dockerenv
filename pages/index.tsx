@@ -86,7 +86,7 @@ export default function Home() {
                 fontSize: "16px",
               }}
             >
-              No results :(
+              No results 😔
               <br />
               Submit an image on{" "}
               <a
