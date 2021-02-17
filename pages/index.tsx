@@ -86,9 +86,16 @@ export default function Home() {
                 fontSize: "16px",
               }}
             >
-              No results 😔
+              No results 😔 <br />
+              <a
+                href={`https://hub.docker.com/search?q=${encodeURIComponent(
+                  search
+                )}&type=image`}
+              >
+                Search for {search} on Docker Hub
+              </a>
               <br />
-              Submit an image on{" "}
+              Or submit an image on{" "}
               <a
                 href="https://github.com/cjdenio/dockerenv/blob/master/images.json"
                 target="_blank"
