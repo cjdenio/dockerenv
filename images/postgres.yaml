@@ -1,0 +1,13 @@
+name: postgres
+url: https://hub.docker.com/_/postgres
+variables:
+  POSTGRES_PASSWORD:
+    description: Sets the password for the default user
+    required: true
+  POSTGRES_USER:
+    description: The username for the default user. Defaults to `postgres`
+    default: postgres
+    required: false
+  POSTGRES_DB:
+    description: The default database name. Defaults to the value of `POSTGRES_USER`
+    required: false
