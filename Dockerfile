@@ -1,0 +1,16 @@
+FROM golang:1.16-alpine AS builder
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+RUN go build -o app ./cmd/dockerenv
+
+FROM alpine:latest AS runner
+
+WORKDIR /usr/src/app
+
+COPY --from=builder /usr/src/app/app ./app
+COPY --from=builder /usr/src/app/images ./images
+
+CMD ["./app"]
