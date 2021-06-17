@@ -48,12 +48,15 @@ func LoadImages(dir string) (*Images, error) {
 		if !v.IsDir() {
 			raw, err := os.ReadFile(path.Join(dir, v.Name()))
 			if err != nil {
-				log.Println("WARN: error reading image `%s`", v.Name())
+				log.Printf("WARN: error reading image `%s`\n", v.Name())
 				continue
 			}
 
 			var image Image
-			yaml.Unmarshal(raw, &image)
+			err = yaml.Unmarshal(raw, &image)
+			if err != nil {
+				log.Printf("WARN: error reading image `%s`: %s\n", v.Name(), err.Error())
+			}
 
 			images = append(images, image)
 		}

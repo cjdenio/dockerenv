@@ -12,7 +12,7 @@ variables:
     description: The default database name. Defaults to the value of `POSTGRES_USER`
     required: false
   POSTGRES_INITDB_ARGS:
-    description: Used to send arguments to `postgres initdb`. The value is a space separated string of arguments as `postgres initdb` would expect them. This is useful for adding functionality like data page checksums: -e `POSTGRES_INITDB_ARGS="--data-checksums"`
+    description: 'Used to send arguments to `postgres initdb`. The value is a space separated string of arguments as `postgres initdb` would expect them. This is useful for adding functionality like data page checksums: -e `POSTGRES_INITDB_ARGS="--data-checksums"`'
     uncommon: true
   POSTGRES_INITDB_WALDIR:
     description: Used to define another location for the Postgres transaction log.
