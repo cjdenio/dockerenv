@@ -9,6 +9,7 @@ variables:
     description: Paying Ngrok customers can specify a custom domain. Only one subdomain or domain can be specified, with the domain taking priority.
   NGROK_REMOTE_ADDR:
     description: Name of the reserved TCP address to use for a TCP tunnel. You must also provide the authentication token.
+    uncommon: true
   NGROK_USERNAME:
     description: Username to use for HTTP authentication on the tunnel. You must also specify an authentication token.
   NGROK_PASSWORD:
@@ -19,11 +20,16 @@ variables:
     description: "Port to expose (defaults to 80 for HTTP protocol). If the server is non-local, the hostname can also be specified, e.g. 192.168.0.102:80."
   NGROK_REGION:
     description: Location of the ngrok tunnel server; can be us (United States, default), eu (Europe), ap (Asia/Pacific) or au (Australia)
+    uncommon: true
   NGROK_LOOK_DOMAIN:
     description: "This is the domain name referred to by ngrok. (default: localhost)."
+    uncommon: true
   NGROK_BINDTLS:
     description: "Toggle tunneling only HTTP or HTTPS traffic. When true, Ngrok only opens the HTTPS endpoint. When false, Ngrok only opens the HTTP endpoint"
+    uncommon: true
   NGROK_HEADER:
     description: Rewrites the Host header for incoming HTTP requests to determine which development site to display.
+    uncommon: true
   NGROK_DEBUG:
     description: "Toggle output of logs. When true, Ngrok will output logs to stdout."
+    uncommon: true
