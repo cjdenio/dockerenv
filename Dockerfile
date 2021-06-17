@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN go build -o app ./cmd/dockerenv
+RUN go build -o app .
 
 FROM alpine:latest AS runner
 

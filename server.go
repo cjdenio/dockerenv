@@ -12,7 +12,7 @@ import (
 	"github.com/cjdenio/dockerenv/pkg/images"
 )
 
-const defaultPort = "8080"
+const defaultPort = "3000"
 
 func main() {
 	err := images.LoadImages("images/")
