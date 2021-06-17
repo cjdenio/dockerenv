@@ -27,9 +27,16 @@ func main() {
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
 
-	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
-	http.Handle("/query", srv)
+	http.Handle("/", http.RedirectHandler("/graphql", http.StatusTemporaryRedirect))
 
-	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
+	http.HandleFunc("/graphql", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodGet {
+			playground.Handler("GraphQL playground", "/graphql")(w, r)
+		} else {
+			srv.ServeHTTP(w, r)
+		}
+	})
+
+	log.Printf("connect to http://localhost:%s/graphql for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }

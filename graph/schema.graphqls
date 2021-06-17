@@ -6,7 +6,7 @@ type Image {
 
 type Variable {
   name: String!
-  description: String!
+  description: String
   default: String
   required: Boolean!
   uncommon: Boolean!

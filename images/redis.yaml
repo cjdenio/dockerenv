@@ -1,0 +1,4 @@
+name: redis
+url: https://hub.docker.com/_/redis
+variables:
+  # This image has no environment variables.

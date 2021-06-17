@@ -1,0 +1,19 @@
+name: sosedoff/pgweb
+url: https://hub.docker.com/r/sosedoff/pgweb
+variables:
+  DATABASE_URL:
+    description: Database connection string
+  SESSIONS:
+    description: Enable multiple database sessions
+    uncommon: true
+  LOCK_SESSION:
+    description: lock session to a single database connection
+  AUTH_USER:
+    description: HTTP basic auth user
+  AUTH_PASS:
+    description: HTTP basic auth password
+  URL_PREFIX:
+    description: Alternative to --prefix flag
+  SESSIONS:
+    description: Enable multiple database sessions
+    uncommon: true

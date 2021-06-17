@@ -10,7 +10,7 @@ type Image struct {
 
 type Variable struct {
 	Name        string  `json:"name"`
-	Description string  `json:"description"`
+	Description *string `json:"description"`
 	Default     *string `json:"default"`
 	Required    bool    `json:"required"`
 	Uncommon    bool    `json:"uncommon"`

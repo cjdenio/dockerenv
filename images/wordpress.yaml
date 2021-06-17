@@ -1,0 +1,34 @@
+name: wordpress
+url: https://hub.docker.com/_/wordpress
+variables:
+  WORDPRESS_DB_HOST:
+    description: Your WordPress database host
+  WORDPRESS_DB_USER:
+    description: Your WordPress database user
+  WORDPRESS_DB_PASSWORD:
+    description: Your WordPress database password
+  WORDPRESS_DB_NAME:
+    description: Your WordPress database name
+  WORDPRESS_TABLE_PREFIX:
+    description: Your WordPress database table prefix
+  WORDPRESS_DEBUG:
+    description: Defaults to disabled, non-empty value will enable `WP_DEBUG` in `wp-config.php`
+  WORDPRESS_AUTH_KEY:
+    uncommon: true
+  WORDPRESS_SECURE_AUTH_KEY:
+    uncommon: true
+  WORDPRESS_LOGGED_IN_KEY:
+    uncommon: true
+  WORDPRESS_NONCE_KEY:
+    uncommon: true
+  WORDPRESS_AUTH_SALT:
+    uncommon: true
+  WORDPRESS_SECURE_AUTH_SALT:
+    uncommon: true
+  WORDPRESS_LOGGED_IN_SALT:
+    uncommon: true
+  WORDPRESS_NONCE_SALT:
+    description: Default to unique random SHA1s, but only if other environment variable configuration is provided
+    uncommon: true
+  WORDPRESS_CONFIG_EXTRA:
+    uncommon: true
