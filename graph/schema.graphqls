@@ -1,0 +1,18 @@
+type Image {
+  name: String!
+  url: String!
+  variables: [Variable!]!
+}
+
+type Variable {
+  name: String!
+  description: String!
+  default: String
+  required: Boolean!
+  uncommon: Boolean!
+}
+
+type Query {
+  images: [Image!]!
+  image(name: String!): Image
+}
