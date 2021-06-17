@@ -1,0 +1,12 @@
+name: mongo
+url: https://hub.docker.com/_/mongo
+variables:
+  MONGO_INITDB_ROOT_USERNAME:
+    description: The username for the default superuser
+    required: true
+  MONGO_INITDB_ROOT_PASSWORD:
+    description: The password for the default superuser
+    required: true
+  MONGO_INITDB_DATABASE:
+    description: Specify the name of a database to be used for creation scripts in `/docker-entrypoint-initdb.d/*.js`
+    uncommon: true

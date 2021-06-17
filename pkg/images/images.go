@@ -13,6 +13,7 @@ type Variable struct {
 	Description string `json:"description"`
 	Required    bool   `json:"required"`
 	Default     string `json:"default,omitempty"`
+	Uncommon    bool   `json:"uncommon"`
 }
 
 type Image struct {

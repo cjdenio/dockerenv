@@ -1,0 +1,68 @@
+name: mongo-express
+url: https://hub.docker.com/_/mongo-express
+variables:
+  ME_CONFIG_BASICAUTH_USERNAME:
+    description: mongo-express web username
+    required: false
+  ME_CONFIG_BASICAUTH_PASSWORD:
+    description: mongo-express web password
+    required: false
+  ME_CONFIG_MONGODB_ENABLE_ADMIN:
+    description: \'Enable admin access to all databases. Send strings: `"true"` or `"false"`\'
+    required: false
+    default: "true"
+  ME_CONFIG_MONGODB_ADMINUSERNAME:
+    description: MongoDB admin username
+    required: false
+  ME_CONFIG_MONGODB_ADMINPASSWORD:
+    description: MongoDB admin password
+    required: false
+  ME_CONFIG_MONGODB_PORT:
+    description: MongoDB port
+    required: false
+    default: "27017"
+  ME_CONFIG_MONGODB_SERVER:
+    description:
+      MongoDB container name. Use comma delimited list of host names for replica sets.
+    required: false
+    default: mongo
+  ME_CONFIG_OPTIONS_EDITORTHEME:
+    description: >-
+      mongo-express editor color theme, [more
+      here](http://codemirror.net/demo/theme.html)
+    required: false
+    default: default
+  ME_CONFIG_REQUEST_SIZE:
+    description: >-
+      Maximum payload size. CRUD operations above this size will fail in
+      [body-parser](https://www.npmjs.com/package/body-parser).
+    required: false
+    default: 100kb
+  ME_CONFIG_SITE_BASEURL:
+    description: >-
+      Set the baseUrl to ease mounting at a subdirectory. Remember to include a
+      leading and trailing slash.
+    required: false
+    default: /
+  ME_CONFIG_SITE_COOKIESECRET:
+    description: >-
+      String used by [cookie-parser
+      middleware](https://www.npmjs.com/package/cookie-parser) to sign cookies.
+    required: false
+    default: cookiesecret
+  ME_CONFIG_SITE_SESSIONSECRET:
+    description: >-
+      String used to sign the session ID cookie by [express-session
+      middleware](https://www.npmjs.com/package/express-session).
+    required: false
+    default: sessionsecret
+  ME_CONFIG_SITE_SSL_ENABLED:
+    description: Enable SSL.
+    required: false
+    default: "false"
+  ME_CONFIG_SITE_SSL_CRT_PATH:
+    description: SSL certificate file.
+    required: false
+  ME_CONFIG_SITE_SSL_KEY_PATH:
+    description: SSL key file.
+    required: false
