@@ -20,6 +20,16 @@ func (r *queryResolver) Image(ctx context.Context, name string) (*model.Image, e
 	return image, err
 }
 
+func (r *queryResolver) Search(ctx context.Context, query string, maxItems *int) ([]*model.Image, error) {
+	matched_images := images.LoadedImages.Search(query)
+
+	if len(matched_images) > *maxItems {
+		matched_images = matched_images[0:*maxItems]
+	}
+
+	return matched_images, nil
+}
+
 // Query returns generated.QueryResolver implementation.
 func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
 

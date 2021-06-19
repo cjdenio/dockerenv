@@ -51,6 +51,7 @@ type ComplexityRoot struct {
 	Query struct {
 		Image  func(childComplexity int, name string) int
 		Images func(childComplexity int) int
+		Search func(childComplexity int, query string, maxItems *int) int
 	}
 
 	Variable struct {
@@ -65,6 +66,7 @@ type ComplexityRoot struct {
 type QueryResolver interface {
 	Images(ctx context.Context) ([]*model.Image, error)
 	Image(ctx context.Context, name string) (*model.Image, error)
+	Search(ctx context.Context, query string, maxItems *int) ([]*model.Image, error)
 }
 
 type executableSchema struct {
@@ -121,6 +123,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.Images(childComplexity), true
+
+	case "Query.search":
+		if e.complexity.Query.Search == nil {
+			break
+		}
+
+		args, err := ec.field_Query_search_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Search(childComplexity, args["query"].(string), args["max_items"].(*int)), true
 
 	case "Variable.default":
 		if e.complexity.Variable.Default == nil {
@@ -224,6 +238,7 @@ type Variable {
 type Query {
   images: [Image!]!
   image(name: String!): Image
+  search(query: String!, max_items: Int = 10): [Image!]!
 }
 `, BuiltIn: false},
 }
@@ -260,6 +275,30 @@ func (ec *executionContext) field_Query_image_args(ctx context.Context, rawArgs 
 		}
 	}
 	args["name"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_search_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["query"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("query"))
+		arg0, err = ec.unmarshalNString2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["query"] = arg0
+	var arg1 *int
+	if tmp, ok := rawArgs["max_items"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("max_items"))
+		arg1, err = ec.unmarshalOInt2ᚖint(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["max_items"] = arg1
 	return args, nil
 }
 
@@ -478,6 +517,48 @@ func (ec *executionContext) _Query_image(ctx context.Context, field graphql.Coll
 	res := resTmp.(*model.Image)
 	fc.Result = res
 	return ec.marshalOImage2ᚖgithubᚗcomᚋcjdenioᚋdockerenvᚋgraphᚋmodelᚐImage(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_search(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_search_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Search(rctx, args["query"].(string), args["max_items"].(*int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Image)
+	fc.Result = res
+	return ec.marshalNImage2ᚕᚖgithubᚗcomᚋcjdenioᚋdockerenvᚋgraphᚋmodelᚐImageᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1892,6 +1973,20 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				res = ec._Query_image(ctx, field)
 				return res
 			})
+		case "search":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_search(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
 		case "__type":
 			out.Values[i] = ec._Query___type(ctx, field)
 		case "__schema":
@@ -2575,6 +2670,21 @@ func (ec *executionContext) marshalOImage2ᚖgithubᚗcomᚋcjdenioᚋdockerenv�
 		return graphql.Null
 	}
 	return ec._Image(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOInt2ᚖint(ctx context.Context, v interface{}) (*int, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := graphql.UnmarshalInt(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.SelectionSet, v *int) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return graphql.MarshalInt(*v)
 }
 
 func (ec *executionContext) unmarshalOString2string(ctx context.Context, v interface{}) (string, error) {

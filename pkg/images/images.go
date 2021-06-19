@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/cjdenio/dockerenv/graph/model"
 	"gopkg.in/yaml.v2"
@@ -24,6 +25,22 @@ func (i *Images) FindOne(name string) (*model.Image, error) {
 	}
 
 	return nil, errors.New("image not found")
+}
+
+func (i *Images) Search(query string) []*model.Image {
+	matched_images := []*model.Image{}
+
+	if query == "" {
+		return matched_images
+	}
+
+	for _, v := range i.Images {
+		if strings.Contains(strings.ToLower(v.Name), strings.ToLower(query)) {
+			matched_images = append(matched_images, v)
+		}
+	}
+
+	return matched_images
 }
 
 func LoadImages(dir string) error {

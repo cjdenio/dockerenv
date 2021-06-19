@@ -15,4 +15,5 @@ type Variable {
 type Query {
   images: [Image!]!
   image(name: String!): Image
+  search(query: String!, max_items: Int = 10): [Image!]!
 }
