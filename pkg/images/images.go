@@ -79,6 +79,7 @@ func LoadImages(dir string) error {
 			err = yaml.Unmarshal(raw, &image)
 			if err != nil {
 				log.Printf("WARN: error reading image `%s`: %s\n", v.Name(), err.Error())
+				continue
 			}
 
 			var variables []*model.Variable
@@ -92,6 +93,16 @@ func LoadImages(dir string) error {
 					Uncommon:    value.Uncommon,
 				})
 			}
+
+			sort.Slice(variables, func(i, j int) bool {
+				if !variables[j].Uncommon && variables[i].Uncommon {
+					return false
+				} else if variables[j].Uncommon && !variables[i].Uncommon {
+					return true
+				}
+
+				return i < j
+			})
 
 			images = append(images, &model.Image{
 				Name:      image.Name,
