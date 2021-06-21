@@ -14,6 +14,15 @@ import (
 
 const defaultPort = "3000"
 
+func corsMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "*")
+
+		next.ServeHTTP(w, r)
+	})
+}
+
 func main() {
 	err := images.LoadImages("images/")
 	if err != nil {
@@ -33,7 +42,7 @@ func main() {
 		if r.Method == http.MethodGet {
 			playground.Handler("GraphQL playground", "/graphql")(w, r)
 		} else {
-			srv.ServeHTTP(w, r)
+			corsMiddleware(srv).ServeHTTP(w, r)
 		}
 	})
 

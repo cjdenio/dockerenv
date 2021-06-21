@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"sort"
 	"strings"
 
 	"github.com/cjdenio/dockerenv/graph/model"
@@ -39,6 +40,16 @@ func (i *Images) Search(query string) []*model.Image {
 			matched_images = append(matched_images, v)
 		}
 	}
+
+	sort.Slice(matched_images, func(i, j int) bool {
+		if strings.EqualFold(matched_images[j].Name, query) {
+			return false
+		} else if strings.EqualFold(matched_images[i].Name, query) {
+			return true
+		}
+
+		return matched_images[i].Name < matched_images[j].Name
+	})
 
 	return matched_images
 }
